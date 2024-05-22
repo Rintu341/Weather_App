@@ -54,14 +54,20 @@ android {
 dependencies {
 
     val room_version = "2.6.1"
-    val  hilt_version = "2.47"
+    val  hilt_version = "2.49"
     //Dagger - Hilt
-    implementation ("com.google.dagger:hilt-android:2.49")
+    implementation ("com.google.dagger:hilt-android:$hilt_version")
 
-    implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
-// Dagger - Hilt
+    // Dagger - Hilt
     kapt ("com.google.dagger:hilt-android-compiler:$hilt_version")
-    implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
+
+    /*the androidx.hilt:hilt-lifecycle-viewmodel artifacts were deprecated in the Dagger 2.34 release
+         in favor of native Hilt API. The missing DefaultActivityViewModelFactory class is no longer in the Hilt codebase
+     */
+    //    implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
+
+    implementation ("com.google.dagger:hilt-android:$hilt_version")
+
     kapt ("androidx.hilt:hilt-compiler:1.2.0")
     implementation ("androidx.hilt:hilt-navigation-compose:1.0.0-beta01")
 
