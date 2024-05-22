@@ -1,6 +1,8 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    id ("com.android.application")
+    id ("kotlin-android")
+    id ("kotlin-kapt")
+    id ("dagger.hilt.android.plugin")
 }
 
 android {
@@ -50,6 +52,49 @@ android {
 }
 
 dependencies {
+
+    val room_version = "2.6.1"
+    val  hilt_version = "2.47"
+    //Dagger - Hilt
+    implementation ("com.google.dagger:hilt-android:2.49")
+
+    implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
+// Dagger - Hilt
+    kapt ("com.google.dagger:hilt-android-compiler:$hilt_version")
+    implementation ("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
+    kapt ("androidx.hilt:hilt-compiler:1.2.0")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0-beta01")
+
+    //material icons - use with caution!
+    // implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    // Coroutines
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+
+    // Coroutine Lifecycle Scopes
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
+    //lifecycle
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
+
+    // Coil
+    implementation("io.coil-kt:coil-compose:1.4.0")
+
+    // Retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.11.0")
+    // OkHttp
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.2")
+
+    // JSON Converter
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    //Room
+    implementation ("androidx.room:room-runtime:$room_version")
+    annotationProcessor ("androidx.room:room-compiler:$room_version")
+
+    // To use Kotlin annotation processing tool (kapt) MUST HAVE!
+    kapt("androidx.room:room-compiler:$room_version")
+    implementation ("androidx.room:room-ktx:$room_version")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
