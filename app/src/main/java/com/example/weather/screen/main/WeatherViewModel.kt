@@ -13,22 +13,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class QuestionViewModel @Inject constructor(
+class WeatherViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository
 ) : ViewModel(){
 
     val data : MutableState<DataOrException<WeatherResponse, Boolean, Exception>>
             = mutableStateOf(DataOrException(null,null,Exception("")))
 
-    private lateinit var _location : String
+
 
     init{
-        getCurrentResponse(_location)
+        getCurrentResponse()
     }
-    private fun getCurrentResponse(location:String){
+    private fun getCurrentResponse(location:String = "Kolkata"){
         viewModelScope.launch {
             data.value.loading = true
-            _location = location
             data.value = weatherRepository.getCurrentWeather(location)
 
             if(data.value.toString().isNotEmpty())

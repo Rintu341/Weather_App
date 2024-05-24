@@ -93,6 +93,8 @@ dependencies {
 
     // JSON Converter
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+    implementation("com.squareup.retrofit:converter-gson:2.0.0-beta2")
 
     //Room
     implementation ("androidx.room:room-runtime:$room_version")

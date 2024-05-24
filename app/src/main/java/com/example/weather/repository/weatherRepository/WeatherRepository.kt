@@ -4,7 +4,6 @@ import android.util.Log
 import com.example.weather.data.DataOrException
 import com.example.weather.model.WeatherResponse
 import com.example.weather.network.WeatherApi
-import com.example.weather.utils.Constants.API_KEY
 import javax.inject.Inject
 
 
@@ -26,7 +25,7 @@ class WeatherRepository @Inject constructor(
         }catch (exception:Exception)
         {
             dataOrException.e = exception
-            Log.d("TAG","getQuestions : ${exception.toString()}")
+            Log.d("TAG","getWeather : $exception")
         }
         return dataOrException
     }

@@ -7,7 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 
 @Composable
-fun MainScreen(navController: NavController) {
-    Text("MainScreen")
+fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel) {
+    Text("MainScreen ${weatherViewModel.data.value.data?.current?.cloud}")
+    Log.d("weather","${weatherViewModel.data.value.data}")
 
 }

@@ -13,7 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.weather.navigation.WeatherNavigation
+import com.example.weather.screen.main.WeatherViewModel
 import com.example.weather.ui.theme.WeatherTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,21 +26,24 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            WeatherApp()
+            val weatherViewModel: WeatherViewModel = hiltViewModel()
+            WeatherApp(weatherViewModel = weatherViewModel)
         }
     }
 }
 
 @Composable
-fun WeatherApp(modifier: Modifier = Modifier) {
+fun WeatherApp(modifier: Modifier = Modifier,weatherViewModel: WeatherViewModel) {
     WeatherTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             Column(
-                modifier = Modifier.padding(innerPadding).fillMaxSize(),
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                WeatherNavigation()
+                WeatherNavigation(weatherViewModel = weatherViewModel)
             }
         }
     }

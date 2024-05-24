@@ -6,10 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.weather.screen.main.MainScreen
+import com.example.weather.screen.main.WeatherViewModel
 import com.example.weather.screen.splash.WeatherSplashScreen
 
 @Composable
-fun WeatherNavigation(modifier: Modifier = Modifier) {
+fun WeatherNavigation(modifier: Modifier = Modifier,weatherViewModel: WeatherViewModel) {
 
     val navController = rememberNavController()
 
@@ -18,7 +19,7 @@ fun WeatherNavigation(modifier: Modifier = Modifier) {
             WeatherSplashScreen(navController = navController)
         }
         composable(route = WeatherScreens.MainScreen.name){
-            MainScreen(navController = navController)
+            MainScreen(navController = navController,weatherViewModel)
         }
 
     }
