@@ -3,6 +3,8 @@ package com.example.weather.screen.main
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weather.data.DataOrException
@@ -17,9 +19,10 @@ class WeatherViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository
 ) : ViewModel(){
 
-    val data : MutableState<DataOrException<WeatherResponse, Boolean, Exception>>
-            = mutableStateOf(DataOrException(null,null,Exception("")))
-
+//    val data : MutableState<DataOrException<WeatherResponse, Boolean, Exception>>
+//            = mutableStateOf(DataOrException(null,null,Exception("")))
+        private val _data  = MutableLiveData<DataOrException<WeatherResponse,Boolean,Exception>>()
+        val data : LiveData<DataOrException<WeatherResponse, Boolean, Exception>> = _data
 
 
     init{
@@ -27,14 +30,14 @@ class WeatherViewModel @Inject constructor(
     }
     private fun getCurrentResponse(location:String = "Kolkata"){
         viewModelScope.launch {
-            data.value.loading = true
-            data.value = weatherRepository.getCurrentWeather(location)
+            _data.value?.loading = true
+            _data.value = weatherRepository.getCurrentWeather(location)
 
             if(data.value.toString().isNotEmpty())
             {
-                data.value.loading = false
+                _data.value!!.loading = false
             }else{
-                Log.d("TAG"," Exception ${data.value.e}")
+                Log.d("TAG"," Exception ${data.value?.e}")
             }
         }
     }
