@@ -7,10 +7,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weather.data.DataOrException
+import com.example.weather.data.WeatherState
 import com.example.weather.model.WeatherResponse
 import com.example.weather.repository.weatherRepository.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,26 +21,21 @@ class WeatherViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository
 ) : ViewModel(){
 
-//    val data : MutableState<DataOrException<WeatherResponse, Boolean, Exception>>
-//            = mutableStateOf(DataOrException(null,null,Exception("")))
-        private val _data  = MutableLiveData<DataOrException<WeatherResponse,Boolean,Exception>>()
-        val data : LiveData<DataOrException<WeatherResponse, Boolean, Exception>> = _data
 
+    private val _weatherState = MutableStateFlow<WeatherState>(WeatherState.Loading)
+    val weatherState: StateFlow<WeatherState> = _weatherState
 
-    init{
-        getCurrentResponse()
-    }
-    private fun getCurrentResponse(location:String = "Kolkata"){
+    fun fetchWeather(query: String) {
         viewModelScope.launch {
-            _data.value?.loading = true
-            _data.value = weatherRepository.getCurrentWeather(location)
-
-            if(data.value.toString().isNotEmpty())
-            {
-                _data.value!!.loading = false
-            }else{
-                Log.d("TAG"," Exception ${data.value?.e}")
-            }
+            _weatherState.value = WeatherState.Loading
+            val result = weatherRepository.getCurrentWeather(query)
+            _weatherState.value = result.fold(
+                onSuccess = { WeatherState.Success(it) },
+                onFailure = { WeatherState.Error(it) }
+            )
         }
     }
+
+
+
 }

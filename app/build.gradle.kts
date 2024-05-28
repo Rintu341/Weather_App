@@ -53,6 +53,7 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.material3.android)
     val room_version = "2.6.1"
     val  hilt_version = "2.49"
     //Dagger - Hilt
@@ -82,7 +83,7 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
     //lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.0")
-
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.7")
     // Coil
     implementation("io.coil-kt:coil-compose:1.4.0")
 
@@ -94,7 +95,7 @@ dependencies {
     // JSON Converter
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
-    implementation("com.squareup.retrofit:converter-gson:2.0.0-beta2")
+//    implementation("com.squareup.retrofit:converter-gson:2.0.0-beta2")
 
     //Room
     implementation ("androidx.room:room-runtime:$room_version")
