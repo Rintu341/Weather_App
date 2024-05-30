@@ -67,11 +67,11 @@ fun WeatherSplashScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         )
         {
-
             Image(painter = painterResource(id = R.drawable.img) , contentDescription = "Splash Screen icon ",
                     modifier = Modifier.size(100.dp),
-                    contentScale = ContentScale.Fit )
-            Text("Find the Sun?",
+                    contentScale = ContentScale.Fit
+            )
+            Text("Weather App",
                 fontSize = MaterialTheme.typography.titleLarge.fontSize,
                 fontStyle = FontStyle.Normal,
                 color = Color.LightGray
