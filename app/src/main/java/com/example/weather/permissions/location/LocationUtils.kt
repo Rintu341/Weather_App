@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 
+/*
+First thing we should check user has already granted permissions or not
+ */
 class LocationUtils {
     fun hasLocationPermission(context: Context): Boolean {
         return (ContextCompat.checkSelfPermission(
