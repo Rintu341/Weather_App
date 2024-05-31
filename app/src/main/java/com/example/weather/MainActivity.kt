@@ -14,9 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.weather.navigation.WeatherNavigation
-import com.example.weather.screen.main.WeatherViewModel
+import com.example.weather.screen.search.WeatherViewModel
 import com.example.weather.ui.theme.WeatherTheme
 import dagger.hilt.android.AndroidEntryPoint
 

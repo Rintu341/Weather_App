@@ -1,4 +1,4 @@
-package com.example.weather.screen.main
+package com.example.weather.screen.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
