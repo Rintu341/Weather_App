@@ -1,5 +1,6 @@
 package com.example.weather
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,9 +13,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.weather.navigation.WeatherNavigation
+import com.example.weather.permissions.location.LocationUtils
 import com.example.weather.screen.search.WeatherViewModel
 import com.example.weather.ui.theme.WeatherTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,14 +28,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val context = LocalContext.current
+            val locationUtils = LocationUtils(context)
             val weatherViewModel: WeatherViewModel = hiltViewModel()
-            WeatherApp(weatherViewModel = weatherViewModel)
+            WeatherApp(weatherViewModel = weatherViewModel,
+                context = context,
+                locationUtils = locationUtils)
         }
     }
 }
 
 @Composable
-fun WeatherApp(modifier: Modifier = Modifier,weatherViewModel: WeatherViewModel) {
+fun WeatherApp(modifier: Modifier = Modifier,
+               weatherViewModel: WeatherViewModel,
+               context: Context,
+               locationUtils: LocationUtils) {
     WeatherTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             Column(
@@ -42,7 +52,9 @@ fun WeatherApp(modifier: Modifier = Modifier,weatherViewModel: WeatherViewModel)
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                WeatherNavigation(weatherViewModel = weatherViewModel)
+                WeatherNavigation(weatherViewModel = weatherViewModel,
+                    context,
+                    locationUtils)
             }
         }
     }

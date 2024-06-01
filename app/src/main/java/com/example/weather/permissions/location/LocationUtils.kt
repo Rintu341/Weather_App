@@ -8,8 +8,8 @@ import androidx.core.content.ContextCompat
 /*
 First thing we should check user has already granted permissions or not
  */
-class LocationUtils {
-    fun hasLocationPermission(context: Context): Boolean {
+class LocationUtils(private val context: Context) {
+    fun hasLocationPermission(): Boolean {
         return (ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.ACCESS_FINE_LOCATION

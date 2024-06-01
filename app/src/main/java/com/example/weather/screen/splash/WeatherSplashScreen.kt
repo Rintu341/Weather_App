@@ -49,7 +49,7 @@ fun WeatherSplashScreen(navController: NavController) {
         )
         delay(2000L)
         // Navigate to the main screen and remove the splash screen from the back stack
-        navController.navigate(route = WeatherScreens.SearchScreen.name){
+        navController.navigate(route = WeatherScreens.MainScreen.name){
             popUpTo(WeatherScreens.SplashScreen.name) { inclusive = true }
         }
     })
