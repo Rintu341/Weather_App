@@ -54,6 +54,7 @@ android {
 dependencies {
 
     implementation(libs.androidx.material3.android)
+    implementation(libs.play.services.maps)
     val room_version = "2.6.1"
     val  hilt_version = "2.49"
     //Dagger - Hilt

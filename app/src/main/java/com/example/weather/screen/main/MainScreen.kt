@@ -11,10 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
@@ -33,9 +29,7 @@ fun MainScreen(navController: NavController,
 )
 {
     val location = locationViewModel.location.value
-    var locationArea by remember{
-        mutableStateOf("")
-    }
+    val address = location?.let { locationUtils.getAddressFromLatLng(it) }
     // it start an Activity for getting the result
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
@@ -83,7 +77,7 @@ fun MainScreen(navController: NavController,
                 Text("location not available")
             }
             else->{
-                Text("Address : ${location.latitude} and ${location.longitude}\n $locationArea")
+                Text("Address : ${location.latitude} and ${location.longitude}\n $address")
             }
         }
         Button(onClick = {
@@ -91,7 +85,6 @@ fun MainScreen(navController: NavController,
             {
                 //I have access the location
                 locationUtils.requestLocationUpdates(locationViewModel)
-//                locationArea = locationUtils.getAddressFromLocation(location!!.latitude,location.longitude).toString()
             }else{
                 // ask for permission
                     requestPermissionLauncher.launch(

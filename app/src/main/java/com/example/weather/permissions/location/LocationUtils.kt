@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Address
 import android.location.Geocoder
 import android.os.Looper
 import androidx.core.content.ContextCompat
@@ -13,6 +14,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.android.gms.maps.model.LatLng
 import java.util.Locale
 
 /*
@@ -52,19 +54,16 @@ class LocationUtils(private val context: Context) {
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED)
     }
-    /*
-    fun getAddressFromLocation( latitude: Double, longitude: Double): String? {
+    fun getAddressFromLatLng(location : LocationData): String {
         val geocoder = Geocoder(context, Locale.getDefault())
-        val addresses = geocoder.getFromLocation(latitude, longitude, 1)
-        return if (addresses!!.isEmpty()) {
-            val address = addresses[0]
-            "${address?.locality}, ${address?.countryName}"
-        } else {
-            null
-        }
+        val cordinate = LatLng(location.latitude,location.longitude)
+        val addresses: MutableList<Address>? =
+            geocoder.getFromLocation(cordinate.latitude, cordinate.longitude, 1)
+        return if(addresses?.isNotEmpty() == true)
+            addresses[0].getAddressLine(0)
+        else
+            "Address not Found"
     }
-
-     */
 }
 
 
