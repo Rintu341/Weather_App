@@ -1,15 +1,47 @@
 package com.example.weather.permissions.location
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Geocoder
+import android.os.Looper
 import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import java.util.Locale
 
 /*
 First thing we should check user has already granted permissions or not
  */
 class LocationUtils(private val context: Context) {
-    fun hasLocationPermission(): Boolean {
+    private val _fusedLocationClient: FusedLocationProviderClient =
+        LocationServices.getFusedLocationProviderClient(context)
+
+    @SuppressLint("MissingPermission")
+    fun requestLocationUpdates(viewModel: LocationViewModel)
+    {
+        val locationCallback = object : LocationCallback()
+        {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+                locationResult.lastLocation?.let {
+                    val location = LocationData(latitude = it.latitude, longitude = it.longitude)
+                    viewModel.updateLocation(location)
+                }
+            }
+        }
+        val locationRequest =
+            LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY,1000).build()
+        _fusedLocationClient.requestLocationUpdates(locationRequest,locationCallback, Looper.getMainLooper())
+
+    }
+
+    fun hasLocationPermission(): Boolean { // it check user already grant the permission
         return (ContextCompat.checkSelfPermission(
             context,
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -20,6 +52,19 @@ class LocationUtils(private val context: Context) {
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED)
     }
+    /*
+    fun getAddressFromLocation( latitude: Double, longitude: Double): String? {
+        val geocoder = Geocoder(context, Locale.getDefault())
+        val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+        return if (addresses!!.isEmpty()) {
+            val address = addresses[0]
+            "${address?.locality}, ${address?.countryName}"
+        } else {
+            null
+        }
+    }
+
+     */
 }
 
 

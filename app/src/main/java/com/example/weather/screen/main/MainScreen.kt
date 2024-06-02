@@ -11,6 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
@@ -28,6 +32,10 @@ fun MainScreen(navController: NavController,
                locationViewModel: LocationViewModel
 )
 {
+    val location = locationViewModel.location.value
+    var locationArea by remember{
+        mutableStateOf("")
+    }
     // it start an Activity for getting the result
     val requestPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
@@ -38,7 +46,7 @@ fun MainScreen(navController: NavController,
             permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
         ) {
             // I have access to location
-
+                locationUtils.requestLocationUpdates(viewModel = locationViewModel)
         }else{
             // ask for permission
             // I should rationalize why app need permission
@@ -68,11 +76,22 @@ fun MainScreen(navController: NavController,
         verticalArrangement = Arrangement.Center
     )
     {
+
+        when(location)
+        {
+            null ->{
+                Text("location not available")
+            }
+            else->{
+                Text("Address : ${location.latitude} and ${location.longitude}\n $locationArea")
+            }
+        }
         Button(onClick = {
             if(locationUtils.hasLocationPermission())
             {
                 //I have access the location
-                
+                locationUtils.requestLocationUpdates(locationViewModel)
+//                locationArea = locationUtils.getAddressFromLocation(location!!.latitude,location.longitude).toString()
             }else{
                 // ask for permission
                     requestPermissionLauncher.launch(
