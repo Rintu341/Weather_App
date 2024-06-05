@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
@@ -29,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.weather.component.BottomSection
@@ -83,24 +86,25 @@ fun SearchScreen(navController: NavController, weatherViewModel: WeatherViewMode
                                                         Icon(imageVector = Icons.Filled.Search, contentDescription = null)
                                                 }
                                         },
-                                        shape = RoundedCornerShape(50)
+                                        shape = RoundedCornerShape(50),
+                                        keyboardOptions = KeyboardOptions(
+                                                keyboardType = KeyboardType.Text
+                                        ),
+                                        keyboardActions = KeyboardActions(
+                                                onSearch = {
+                                                        if (location.isNotEmpty()) {
+                                                                weatherViewModel.fetchWeather(
+                                                                        location
+                                                                )
+                                                                isShowLoading = true
+                                                        }
+                                                }
+                                        ),
+                                        singleLine = true
                                 )
-                                /*
-//                                Button(
-//                                        onClick = {
-//                                                if(location.isNotEmpty()) {
-//                                                        weatherViewModel.fetchWeather(location)
-//                                                        isShowLoading = true
-//                                                }
-//                                        },
-//                                        modifier = Modifier.padding(top = 8.dp)
-//                                ) {
-//                                        Text("Search")
-//                                }
-                                 */
 
                         }
-                        Spacer(modifier = Modifier.height(20.dp))
+                        Spacer(modifier = Modifier.height(10.dp))
                         Column (
                                 modifier = Modifier.fillMaxSize(),
                                 verticalArrangement = Arrangement.SpaceBetween,
@@ -116,7 +120,7 @@ fun SearchScreen(navController: NavController, weatherViewModel: WeatherViewMode
                                                         text = state.weather.current.condition.text,
                                                         icon = ("https:"+state.weather.current.condition.icon).replace("64x64", newValue = "128x128")
                                                 )
-                                                Spacer(modifier = Modifier.height(30.dp))
+                                                Spacer(modifier = Modifier.height(10.dp))
                                                 BottomSection(state = state.weather)
 
 
